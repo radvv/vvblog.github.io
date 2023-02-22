@@ -71,6 +71,100 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-20230222" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/vvblog.github.io/2023/02/22/20230222/" class="article-date">
+  <time class="dt-published" datetime="2023-02-22T11:04:20.000Z" itemprop="datePublished">2023-02-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/vvblog.github.io/2023/02/22/20230222/">20230222</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="数组和指针的区别"><a href="#数组和指针的区别" class="headerlink" title="数组和指针的区别"></a>数组和指针的区别</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>数组：用于储存多个相同类型数据的集合。数组名是首元素的地址；<br>指针：变量，存放的是其他变量在内存中的地址。指针名指向内存的首地址。  </p>
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p>1.赋值。同类型指针变量可以相互赋值，但数组不行，只能一个一个元素赋值或copy。<br>2.存储方式。<br>数组在内存中连续存放，开辟一块连续的内存空间。数组根据数组下标访问，数组的存储空间，在静态区或栈。<br>指针本身是变量，存储空间不能确定。<br>3.求sizeof<br>数组所占存储空间的大小：sizeof(数组名)，或sizeof(数据类型)<br>32位平台下，无论指针的类型是什么，sizeof(指针名)都是4；64位平台，sizeof(指针名)&#x3D;8。<br>4.初始化  </p>
+<pre><code class="c++">//数组
+int a[5] = &#123;0&#125;;
+char b[] = &quot;hello&quot;;
+char c[] = &#123;&#39;h&#39;, &#39;e&#39;, &#39;l&#39;, &#39;l&#39;, &#39;o&#39;, &#39;\0&#39;&#125;;
+int* arr = new int[10];//动态创建一维数组
+//指针
+int* p = new int(0);
+delete p;//指向对象
+
+int* p1 = new int[10];//指向数组
+delete[] p1;
+
+string* p2 = new string;//指向类
+delete p2;
+
+int** pp = &amp;p;//指向指针的指针
+**pp = 10;
+</code></pre>
+<p>5.指针操作<br>数组名的指针操作：  </p>
+<pre><code class="c++">int a[3][4];
+int (*p)[4];//定义一个数组指针，指向含4个元素的一维数组
+p = a;//把二维数组的首地址赋给p，a[0]或a[0][0]
+p++;//该语句执行后，p指向a的下一行a[1][].
+//数组指针也称为指向一维数组的指针，行指针。
+//访问数组中第i行第j列的元素，有几种操作方式：
+*(p[i] + j)
+*(*(p + i) + j)
+(*(p + i))[j]
+p[i][j]
+//优先级：() &gt; [] &gt; *
+</code></pre>
+<p>6.指针的数据操作  </p>
+<pre><code class="c++">char* str = &quot;hello&quot;;
+str[2] = &#39;a&#39;;
+*(str + 2) = &#39;b&#39;;
+///两种操作都合法
+</code></pre>
+<h1 id="什么是函数指针，如何定义，有哪些使用场景"><a href="#什么是函数指针，如何定义，有哪些使用场景" class="headerlink" title="什么是函数指针，如何定义，有哪些使用场景"></a>什么是函数指针，如何定义，有哪些使用场景</h1><h2 id="含义"><a href="#含义" class="headerlink" title="含义"></a>含义</h2><p>函数指针是指向函数的指针变量。函数有入口地址，函数指针指向这个入口地址。  </p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><pre><code class="c++">int func(int a)&#123;
+    return 0;
+&#125;
+int (*f)(int a);
+f = &amp;func;
+</code></pre>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>1.回调。callback，调用别人提供的API（应用程序编程接口），称为call；别人的库调用我们的函数称为callback。  </p>
+<h1 id="静态变量什么时候初始化"><a href="#静态变量什么时候初始化" class="headerlink" title="静态变量什么时候初始化"></a>静态变量什么时候初始化</h1><p>c语言的全局和静态变量，初始化发生在任何代码执行之前，属于编译期初始化；<br>c++规定，全局或静态对象当且仅当对象首次使用时采进行构造。  </p>
+<h1 id="nullptr调用成员函数可以吗？原因"><a href="#nullptr调用成员函数可以吗？原因" class="headerlink" title="nullptr调用成员函数可以吗？原因"></a>nullptr调用成员函数可以吗？原因</h1><p>可以。编译时对象就绑定了函数地址，和指针空不空无关。</p>
+<h1 id="什么是野指针，怎么产生的，如何避免"><a href="#什么是野指针，怎么产生的，如何避免" class="headerlink" title="什么是野指针，怎么产生的，如何避免"></a>什么是野指针，怎么产生的，如何避免</h1><p><strong>野指针</strong>是指针指向的位置不可知（随机、不正确、无明确限制的）；<br><strong>产生原因</strong>：释放内存后不及时清空，依然指向了该内存，可能出现非法访问的错误。<br><strong>避免办法</strong>：初始化置NULL、申请内存后判空、指针释放后置NULL、使用智能指针。  </p>
+<pre><code class="c++">int *p = NULL;//初始化
+p = new int[10];
+assert(p != NULL);//判空
+free(p);
+p = NULL;//释放后置NULL
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://radvv.github.io/vvblog.github.io/2023/02/22/20230222/" data-id="clefma7na0000a0tf4kh7b6z0" data-title="20230222" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-20230221" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/vvblog.github.io/2023/02/21/20230221/" class="article-date">
@@ -283,6 +377,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/vvblog.github.io/2023/02/22/20230222/">20230222</a>
+          </li>
         
           <li>
             <a href="/vvblog.github.io/2023/02/21/20230221/">20230221</a>
